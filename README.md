@@ -1,4 +1,5 @@
 # ClickUp MCP Server
+[![smithery badge](https://smithery.ai/badge/@TaazKareem/clickup-mcp-server)](https://smithery.ai/server/@TaazKareem/clickup-mcp-server)
 
 A Model Context Protocol (MCP) server for integrating ClickUp tasks with AI applications. This server allows AI agents to interact with ClickUp tasks, spaces, lists, and folders through a standardized protocol.
 
@@ -38,6 +39,14 @@ A Model Context Protocol (MCP) server for integrating ClickUp tasks with AI appl
   - Environment-based configuration
 
 ## Installation
+
+### Installing via Smithery
+
+To install ClickUp MCP Server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@TaazKareem/clickup-mcp-server):
+
+```bash
+npx -y @smithery/cli install @TaazKareem/clickup-mcp-server --client claude
+```
 
 ### Using npx (Recommended)
 ```bash
