@@ -1,11 +1,11 @@
 {
   "name": "@taazkareem/clickup-mcp-server",
-  "version": "0.4.1",
+  "version": "0.4.3",
   "description": "ClickUp MCP Server - Integrate ClickUp tasks with AI through Model Context Protocol",
   "type": "module",
   "main": "build/index.js",
   "bin": {
-    "clickup-mcp-server": "build/index.js"
+    "clickup-mcp-server": "./build/index.js"
   },
   "files": [
     "build",
@@ -15,6 +15,7 @@
   "scripts": {
     "build": "tsc && node -e \"require('fs').chmodSync('build/index.js', '755')\"",
     "start": "node build/index.js",
+    "serve": "node build/index.js --stdio",
     "dev": "tsc -w",
     "prepare": "npm run build",
     "prepublishOnly": "npm test",

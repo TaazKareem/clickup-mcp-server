@@ -685,14 +685,12 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           throw new Error("taskId is required");
         }
 
-        const dueDate = args.due_date ? new Date(args.due_date).getTime() : undefined;
-
         const task = await clickup.updateTask(args.taskId, {
           name: args.name,
           description: args.description,
           status: args.status,
           priority: args.priority,
-          due_date: dueDate
+          due_date: args.due_date
         });
         return {
           content: [{
@@ -764,27 +762,41 @@ server.setRequestHandler(GetPromptRequestSchema, async (request) => {
   }
 });
 
-// Start the server
-console.log('Setting up transport...');
-const transport = new StdioServerTransport();
-
-// Connect the server to the transport
-console.log('Connecting server to transport...');
-server.connect(transport).catch(error => {
-  console.error('Error connecting server to transport:', error);
-  process.exit(1);
-});
-
-// Handle process signals
-process.on('SIGINT', () => {
-  console.log('Received SIGINT. Shutting down...');
-  transport.close();
-});
-
-process.on('SIGTERM', () => {
-  console.log('Received SIGTERM. Shutting down...');
-  transport.close();
-});
+if (process.argv.includes('--stdio')) {
+  console.log('Starting server in stdio mode...');
+  
+  // Set up stdio transport
+  const transport = new StdioServerTransport();
+  
+  // Connect server with better error handling
+  server.connect(transport)
+    .then(() => {
+      console.log('Server connected successfully to stdio transport');
+      
+      // Keep the process alive
+      process.stdin.resume();
+      
+      // Handle process termination
+      process.on('SIGINT', () => {
+        console.log('Received SIGINT. Shutting down...');
+        transport.close();
+        process.exit(0);
+      });
+      
+      process.on('SIGTERM', () => {
+        console.log('Received SIGTERM. Shutting down...');
+        transport.close();
+        process.exit(0);
+      });
+    })
+    .catch(error => {
+      console.error('Failed to connect server to transport:', error);
+      process.exit(1);
+    });
+} else {
+  console.log('Starting server in standard mode...');
+  // Add your non-stdio server initialization here if needed
+}
 
 // Prevent unhandled promise rejections from crashing the server
 process.on('unhandledRejection', (error) => {
