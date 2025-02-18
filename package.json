@@ -5,7 +5,7 @@
   "type": "module",
   "main": "build/index.js",
   "bin": {
-    "clickup-mcp-server": "./build/index.js"
+    "clickup-mcp-server": "build/index.js"
   },
   "files": [
     "build",
