@@ -15,11 +15,11 @@ import config from "./config.js";
 import { handleWorkspaceHierarchy, handleCreateTask } from "./handlers/tools.js";
 import { handleSummarizeTasks, handleAnalyzeTaskPriorities } from "./handlers/prompts.js";
 import { getAllTasks } from "./utils/resolvers.js";
-import { 
-  CreateTaskData, 
-  CreateListData, 
-  CreateFolderData, 
-  BulkCreateTasksData 
+import {
+  CreateTaskData,
+  CreateListData,
+  CreateFolderData,
+  BulkCreateTasksData
 } from "./types/clickup.js";
 
 console.log('Server starting up...');
