@@ -669,14 +669,12 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           throw new Error("taskId is required");
         }
 
-        const dueDate = args.due_date ? new Date(args.due_date).getTime() : undefined;
-
         const task = await clickup.updateTask(args.taskId, {
           name: args.name,
           description: args.description,
           status: args.status,
           priority: args.priority,
-          due_date: dueDate
+          due_date: args.due_date
         });
         return {
           content: [{
