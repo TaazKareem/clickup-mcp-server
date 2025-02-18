@@ -35,7 +35,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/taazkareem/clickup-mcp-server.git"
+    "url": "git+https://github.com/taazkareem/clickup-mcp-server.git"
   },
   "bugs": {
     "url": "https://github.com/taazkareem/clickup-mcp-server/issues"
