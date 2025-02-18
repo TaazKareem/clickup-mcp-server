@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://github.com/taazkareem/clickup-mcp-server#readme
+    about: Check the README first for quick answers
+  - name: Questions & Discussions
+    url: https://github.com/taazkareem/clickup-mcp-server/discussions
+    about: For general questions, please use GitHub Discussions 
