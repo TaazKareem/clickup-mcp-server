@@ -12,14 +12,15 @@ import {
 } from "@modelcontextprotocol/sdk/types.js";
 import { ClickUpService } from "./services/clickup.js";
 import config from "./config.js";
-import { handleWorkspaceHierarchy, handleCreateTask } from "./handlers/tools.js";
+import { handleWorkspaceHierarchy, handleCreateTask, handleCreateSubtask } from "./handlers/tools.js";
 import { handleSummarizeTasks, handleAnalyzeTaskPriorities } from "./handlers/prompts.js";
 import { getAllTasks } from "./utils/resolvers.js";
 import { 
   CreateTaskData, 
   CreateListData, 
   CreateFolderData, 
-  BulkCreateTasksData 
+  BulkCreateTasksData, 
+  CreateSubtaskData
 } from "./types/clickup.js";
 
 console.log('Server starting up...');
@@ -130,6 +131,10 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             listName: {
               type: "string",
               description: "Name of the list to create the task in (optional if listId is provided)"
+            },
+            parent : {
+              type: "string",
+              description: "ID of the parent task (optional, must be in the same List specified in listId or listName)"
             },
             name: {
               type: "string",
@@ -421,6 +426,17 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           content: [{
             type: "text",
             text: `Created task ${task.id}: ${task.name}`
+          }]
+        };
+      }
+
+      case "create_subtask": {
+        const args = request.params.arguments as unknown as CreateSubtaskData & { parentTaskId?: string; listId?: string; listName?: string };
+        const subtask = await handleCreateSubtask(clickup, config.teamId, args);
+        return {
+          content: [{
+            type: "text", 
+            text: `Created subtask ${subtask.id}: ${subtask.name}`
           }]
         };
       }

@@ -1,6 +1,6 @@
 import { ClickUpService } from '../services/clickup.js';
 import { resolveListId, resolveSpaceId, resolveFolderId, getAllTasks } from '../utils/resolvers.js';
-import { CreateTaskData, UpdateTaskData, CreateListData, CreateFolderData, BulkCreateTasksData } from '../types/clickup.js';
+import { CreateTaskData, UpdateTaskData, CreateListData, CreateFolderData, BulkCreateTasksData, CreateSubtaskData } from '../types/clickup.js';
 
 export async function handleWorkspaceHierarchy(clickup: ClickUpService, teamId: string) {
   const spaces = await clickup.getSpaces(teamId);
@@ -49,6 +49,16 @@ export async function handleCreateTask(
   const listId = await resolveListId(clickup, teamId, args.listId, args.listName);
   const { listId: _, listName: __, ...taskData } = args;
   return await clickup.createTask(listId, taskData);
+}
+
+export async function handleCreateSubtask(
+  clickup: ClickUpService,
+  teamId: string,
+  args: CreateSubtaskData & { parentTaskId?: string; listId?: string; listName?: string }
+) {
+  const listId = await resolveListId(clickup, teamId, args.listId, args.listName);
+  const { parentTaskId: _, listId: __, listName: ___, ...taskData } = args;
+  return await clickup.createSubTask(listId, { ...taskData, parentTaskId: args.parentTaskId });
 }
 
 // Add other handler functions for each tool... 

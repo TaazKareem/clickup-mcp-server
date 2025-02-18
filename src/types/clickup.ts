@@ -62,6 +62,17 @@ export interface CreateTaskData {
   status?: string;
 }
 
+export interface CreateSubtaskData {
+  parentTaskId: string;
+  name: string;
+  description?: string;
+  priority?: number;
+  due_date?: number;
+  start_date?: number;
+  assignees?: number[];
+  status?: string;
+}
+
 export interface BulkCreateTasksData {
   tasks: Array<CreateTaskData>;
 }
@@ -93,4 +104,4 @@ export interface ClickUpFolder {
 export interface CreateFolderData {
   name: string;
   override_statuses?: boolean;
-} 
+}

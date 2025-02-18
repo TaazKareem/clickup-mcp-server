@@ -8,7 +8,8 @@ import {
   UpdateTaskData,
   CreateListData,
   CreateFolderData,
-  BulkCreateTasksData
+  BulkCreateTasksData,
+  CreateSubtaskData
 } from '../types/clickup.js';
 
 export class ClickUpService {
@@ -53,6 +54,11 @@ export class ClickUpService {
   }
 
   async createTask(listId: string, data: CreateTaskData): Promise<ClickUpTask> {
+    const response = await this.client.post(`/list/${listId}/task`, data);
+    return response.data;
+  }
+
+  async createSubTask(listId: string, data: CreateSubtaskData): Promise<ClickUpTask> {
     const response = await this.client.post(`/list/${listId}/task`, data);
     return response.data;
   }
