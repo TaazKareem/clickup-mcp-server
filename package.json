@@ -1,11 +1,12 @@
 {
   "name": "@taazkareem/clickup-mcp-server",
-  "version": "0.3.0",
+  "version": "0.4.13",
   "description": "ClickUp MCP Server - Integrate ClickUp tasks with AI through Model Context Protocol",
   "type": "module",
-  "main": "build/index.js",
+  "main": "./build/index.js",
   "bin": {
-    "clickup-mcp-server": "build/index.js"
+    "clickup-mcp-server": "build/index.js",
+    "@taazkareem/clickup-mcp-server": "build/index.js"
   },
   "files": [
     "build",
@@ -15,6 +16,7 @@
   "scripts": {
     "build": "tsc && node -e \"require('fs').chmodSync('build/index.js', '755')\"",
     "start": "node build/index.js",
+    "serve": "node build/index.js --stdio",
     "dev": "tsc -w",
     "prepare": "npm run build",
     "prepublishOnly": "npm test",
@@ -34,16 +36,18 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/taazkareem/clickup-mcp-server.git"
+    "url": "git+https://github.com/taazkareem/clickup-mcp-server.git"
   },
   "bugs": {
     "url": "https://github.com/taazkareem/clickup-mcp-server/issues"
   },
   "homepage": "https://github.com/taazkareem/clickup-mcp-server#readme",
   "dependencies": {
-    "@modelcontextprotocol/sdk": "0.6.0",
+    "@modelcontextprotocol/sdk": "^1.4.1",
+    "@modelcontextprotocol/server-github": "^2025.1.23",
     "axios": "^1.6.7",
-    "dotenv": "^16.4.1"
+    "dotenv": "^16.4.1",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@types/node": "^20.11.16",

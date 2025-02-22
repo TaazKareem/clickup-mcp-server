@@ -148,6 +148,51 @@ export class ClickUpService {
     return response.data;
   }
 
+  async findListByNameGlobally(teamId: string, listName: string): Promise<{ list: ClickUpList, space?: ClickUpSpace, folder?: ClickUpFolder } | null> {
+    const spaces = await this.getSpaces(teamId);
+    
+    for (const space of spaces) {
+      // Check lists in folders
+      const folders = await this.getFolders(space.id);
+      for (const folder of folders) {
+        const folderList = folder.lists?.find(list => list.name.toLowerCase() === listName.toLowerCase());
+        if (folderList) {
+          return { list: folderList, space, folder };
+        }
+      }
+      
+      // Check lists directly in space
+      const spaceLists = await this.getLists(space.id);
+      const spaceList = spaceLists.find(list => list.name.toLowerCase() === listName.toLowerCase());
+      if (spaceList) {
+        return { list: spaceList, space };
+      }
+    }
+
+    // Check lists without spaces
+    const allLists = await this.getAllLists(teamId);
+    const list = allLists.find(list => list.name.toLowerCase() === listName.toLowerCase());
+    if (list) {
+      return { list };
+    }
+
+    return null;
+  }
+
+  async findFolderByNameGlobally(teamId: string, folderName: string): Promise<{ folder: ClickUpFolder, space: ClickUpSpace } | null> {
+    const spaces = await this.getSpaces(teamId);
+    
+    for (const space of spaces) {
+      const folders = await this.getFolders(space.id);
+      const folder = folders.find(folder => folder.name.toLowerCase() === folderName.toLowerCase());
+      if (folder) {
+        return { folder, space };
+      }
+    }
+
+    return null;
+  }
+
   async duplicateTask(taskId: string, listId: string): Promise<ClickUpTask> {
     const response = await this.client.post(`/task/${taskId}/duplicate`, {
       list: listId
@@ -162,10 +207,5 @@ export class ClickUpService {
   async updateList(listId: string, data: Partial<CreateListData>): Promise<ClickUpList> {
     const response = await this.client.put(`/list/${listId}`, data);
     return response.data;
-  }
-
-  async findListByName(spaceId: string, listName: string): Promise<ClickUpList | null> {
-    const lists = await this.getLists(spaceId);
-    return lists.find(list => list.name.toLowerCase() === listName.toLowerCase()) || null;
   }
 } 

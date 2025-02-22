@@ -4,6 +4,11 @@ import { config } from 'process';
 // Load environment variables from .env file
 dotenv.config();
 
+console.log('Environment variables received:', {
+  CLICKUP_API_KEY: process.env.CLICKUP_API_KEY,
+  TEAM_ID: process.env.TEAM_ID
+});
+
 interface Config {
   clickupApiKey: string;
   teamId: string;
@@ -11,6 +16,8 @@ interface Config {
 
 // Parse command line arguments for --env flags
 const args = process.argv.slice(2);
+console.log('Command line arguments:', args);
+
 const envArgs: { [key: string]: string } = {};
 for (let i = 0; i < args.length; i++) {
   if (args[i] === '--env' && i + 1 < args.length) {
@@ -21,10 +28,14 @@ for (let i = 0; i < args.length; i++) {
   }
 }
 
+console.log('Parsed environment arguments:', envArgs);
+
 const configuration: Config = {
   clickupApiKey: envArgs.clickupApiKey || process.env.CLICKUP_API_KEY || '',
-  teamId: envArgs.teamId || process.env.TEAM_ID || '',
+  teamId: envArgs.teamId || process.env.TEAM_ID || ''
 };
+
+console.log('Final configuration:', configuration);
 
 // Check for missing environment variables
 const missingEnvVars = Object.entries(configuration)

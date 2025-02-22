@@ -56,7 +56,7 @@ export interface CreateTaskData {
   name: string;
   description?: string;
   priority?: number;
-  due_date?: number;
+  due_date?: number | string;
   start_date?: number;
   assignees?: number[];
   status?: string;
@@ -75,7 +75,9 @@ export interface CreateListData {
   status?: string;
 }
 
-export interface UpdateTaskData extends Partial<CreateTaskData> {}
+export interface UpdateTaskData extends Partial<CreateTaskData> {
+  due_date?: string | number;
+}
 
 export interface ClickUpFolder {
   id: string;
