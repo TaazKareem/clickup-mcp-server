@@ -1,0 +1,23 @@
+# Smithery configuration file: https://smithery.ai/docs/config#smitheryyaml
+
+dockerfile: Dockerfile
+
+startCommand:
+  type: stdio
+  configSchema:
+    # JSON Schema defining the configuration options for the MCP.
+    type: object
+    required:
+      - clickupApiKey
+      - clickupTeamId
+    properties:
+      clickupApiKey:
+        type: string
+        description: Your ClickUp API key.
+      clickupTeamId:
+        type: string
+        description: Your ClickUp Team ID.
+  commandFunction:
+    # A function that produces the CLI command to start the MCP on stdio.
+    |-
+    (config) => ({ command: 'node', args: ['build/index.js'], env: { CLICKUP_API_KEY: config.clickupApiKey, CLICKUP_TEAM_ID: config.clickupTeamId } })

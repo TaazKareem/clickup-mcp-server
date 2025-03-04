@@ -1,6 +1,6 @@
 {
   "name": "@taazkareem/clickup-mcp-server",
-  "version": "0.4.59",
+  "version": "0.4.60",
   "description": "ClickUp MCP Server - Integrate ClickUp tasks with AI through Model Context Protocol",
   "type": "module",
   "main": "build/index.js",
@@ -44,6 +44,8 @@
   "homepage": "https://github.com/taazkareem/clickup-mcp-server#readme",
   "dependencies": {
     "@modelcontextprotocol/sdk": "0.6.0",
+    "@modelcontextprotocol/server-github": "^2025.1.23",
+    "@taazkareem/clickup-mcp-server": "^0.4.60",
     "axios": "^1.6.7",
     "dotenv": "^16.4.1"
   },
